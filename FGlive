@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  
+  <!-- Load your custom font -->
+  <style>
+    @font-face {
+      font-family: 'GoodTiming';
+      src: url('good%20timing%20bd.otf') format('opentype');
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('NewProjectFG.gif') no-repeat center center;
+      background-size: cover;
+      font-family: 'GoodTiming', sans-serif;
+    }
+
+    #timer {
+      font-size: 80px;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div id="timer">00:00</div>
+
+  <script>
+    // Set the countdown duration in seconds (example: 5 minutes)
+    let countdownSeconds = 300;
+
+    function formatTime(seconds) {
+      const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const secs = String(seconds % 60).padStart(2, '0');
+      return `${mins}:${secs}`;
+    }
+
+    function updateTimer() {
+      document.getElementById('timer').textContent = formatTime(countdownSeconds);
+      if (countdownSeconds > 0) {
+        countdownSeconds--;
+      } else {
+        clearInterval(timerInterval);
+      }
+    }
+
+    updateTimer();
+    const timerInterval = setInterval(updateTimer, 1000);
+  </script>
+</body>
+</html>
