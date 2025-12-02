@@ -9,7 +9,7 @@
   <style>
     @font-face {
       font-family: 'GoodTiming';
-      src: url('good%20timing%20bd.otf') format('opentype');
+      src: url('good timing bd.otf') format('opentype');
     }
 
     body {
@@ -22,7 +22,7 @@
       align-items: center;
       background: url('NewProjectFG.gif') no-repeat center center;
       background-size: cover;
-      font-family: 'GoodTiming', sans-serif;
+      font-family: 'good timing bd.otf', sans-serif;
     }
 
     #timer {
