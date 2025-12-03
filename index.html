@@ -10,7 +10,9 @@
         margin: 0;
         padding: 0;
         overflow: hidden;
-        background: black;    /* ⭐ GIF ke peeche pure black background */
+
+        /* ⭐ FORCE BLACK BACKGROUND */
+        background: black !important; 
         width: 100vw;
         height: 100vh;
     }
@@ -20,47 +22,56 @@
         src: url('good timing bd.otf') format('opentype');
     }
 
-    /* Background GIF */
-    .bg {
+    /* ⭐ BLACK BACKGROUND FORCE (GIF container) */
+    .bg-wrapper {
         position: absolute;
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        z-index: 1;
-        opacity: 1;
-        transition: opacity 3s ease;
-        background: black; /* GIF load hone se pehle bhi black */
+        background: black !important;
+        z-index: 0;
     }
 
-    /* STARTING ke niche white box ki correct position */
+    /* GIF */
+    .bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+        /* ⭐ GIF ke upar bhi black fill */
+        background-color: black !important;
+
+        position: absolute;
+        z-index: 1;
+
+        opacity: 1;
+        transition: opacity 3s ease;
+    }
+
+    /* STARTING ke niche timer box */
     .timer-box {
         position: absolute;
-        top: 352px;
-        left: 292px;
+        top: 500px;
+        left: 500px;
         width: 330px;
         height: 110px;
         z-index: 5;
         opacity: 1;
-        transition: opacity 2s ease;
+        transition: opacity 3s ease;
     }
 
-    /* Timer text */
-    #timer-front,
-    #timer-back {
+    #timer-front, #timer-back {
         position: absolute;
         font-family: 'GoodTiming';
         font-size: 68px;
         font-weight: bold;
     }
 
-    /* Black text */
     #timer-front {
         color: black;
-        top: 10px;     
+        top: 10px;
         left: 18px;
     }
 
-    /* White shadow */
     #timer-back {
         color: white;
         opacity: 0.9;
@@ -68,7 +79,6 @@
         left: 22px;
     }
 
-    /* Fade-out */
     .fade-out {
         opacity: 0 !important;
     }
@@ -77,16 +87,20 @@
 
 <body>
 
+<!-- ⭐ MAIN BLACK LAYER -->
+<div class="bg-wrapper"></div>
+
+<!-- GIF -->
 <img src="NewProjectFG.gif" class="bg">
 
-<!-- STARTING ke niche box me timer -->
+<!-- Timer -->
 <div class="timer-box">
     <div id="timer-back">10:00</div>
     <div id="timer-front">10:00</div>
 </div>
 
 <script>
-let time = 30; // Timer seconds
+let time = 30;
 
 function updateTimer() {
     let minutes = Math.floor(time / 60);
@@ -107,9 +121,17 @@ function updateTimer() {
         setTimeout(() => {
             document.querySelector(".timer-box").style.display = "none";
             document.querySelector(".bg").style.display = "none";
-        }, 2000);
+        }, 3000);
     }
 
+    if (time > 0) time--;
+}
+
+setInterval(updateTimer, 1000);
+</script>
+
+</body>
+</html>
     if (time > 0) time--;
 }
 
