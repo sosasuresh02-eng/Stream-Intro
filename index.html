@@ -11,8 +11,7 @@
         padding: 0;
         overflow: hidden;
 
-        /* ⭐ FORCE BLACK BACKGROUND */
-        background: black !important; 
+        background: transparent; /* Prism transparency ke liye */
         width: 100vw;
         height: 100vh;
     }
@@ -22,41 +21,39 @@
         src: url('good timing bd.otf') format('opentype');
     }
 
-    /* ⭐ BLACK BACKGROUND FORCE (GIF container) */
-    .bg-wrapper {
+    /* ⭐ BLACK BACKGROUND LAYER (fade-out hoga) */
+    .bg-black {
         position: absolute;
         width: 100%;
         height: 100%;
-        background: black !important;
+        background: black;
         z-index: 0;
+        opacity: 1;
+        transition: opacity 3s ease;
     }
 
     /* GIF */
     .bg {
+        position: absolute;
         width: 100%;
         height: 100%;
         object-fit: cover;
-
-        /* ⭐ GIF ke upar bhi black fill */
-        background-color: black !important;
-
-        position: absolute;
         z-index: 1;
-
         opacity: 1;
         transition: opacity 3s ease;
+        background: black; 
     }
 
-    /* STARTING ke niche timer box */
+    /* Timer box */
     .timer-box {
         position: absolute;
-        top: 500px;
-        left: 500px;
+        top: 352px;
+        left: 292px;
         width: 330px;
         height: 110px;
         z-index: 5;
         opacity: 1;
-        transition: opacity 3s ease;
+        transition: opacity 2s ease;
     }
 
     #timer-front, #timer-back {
@@ -87,8 +84,8 @@
 
 <body>
 
-<!-- ⭐ MAIN BLACK LAYER -->
-<div class="bg-wrapper"></div>
+<!-- ⭐ Black background layer -->
+<div class="bg-black"></div>
 
 <!-- GIF -->
 <img src="NewProjectFG.gif" class="bg">
@@ -117,21 +114,15 @@ function updateTimer() {
 
         document.querySelector(".timer-box").classList.add("fade-out");
         document.querySelector(".bg").classList.add("fade-out");
+        document.querySelector(".bg-black").classList.add("fade-out"); // ⭐ Black bhi fade-out
 
         setTimeout(() => {
             document.querySelector(".timer-box").style.display = "none";
             document.querySelector(".bg").style.display = "none";
-        }, 3000);
+            document.querySelector(".bg-black").style.display = "none"; // ⭐ Black background remove
+        }, 2000);
     }
 
-    if (time > 0) time--;
-}
-
-setInterval(updateTimer, 1000);
-</script>
-
-</body>
-</html>
     if (time > 0) time--;
 }
 
