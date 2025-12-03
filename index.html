@@ -1,153 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stream Intro</title>
-
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background: transparent;
-        width: 100vw;
-        height: 100vh;
-    }
-
-    @font-face {
-        font-family: 'GoodTiming';
-        src: url('good timing bd.otf') format('opentype');
-    }
-
-    /* ALWAYS 100% OPAQUE so screen never leaks */
-    .black-mask {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: black;
-        z-index: 0;
-        opacity: 1;
-        transition: opacity 3s ease; /* fade-out */
-    }
-
-    .bg {
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        object-fit: cover;
-        z-index: 1;
-        opacity: 1;
-        transition: opacity 3s ease; /* fade-out */
-    }
-
-    .timer-box {
-        position: absolute;
-        top: 435px;
-        left: 70px;
-        width: 260px;
-        height: 90px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-        opacity: 1;
-        transition: opacity 3s ease; /* fade-out */
-    }
-
-    #timer-back {
-        position: absolute;
-        font-family: 'GoodTiming';
-        font-size: 70px;
-        font-weight: bold;
-        color: white;
-        opacity: 0.9;
-        transform: translate(2px, 2px);
-    }
-
-    #timer-front {
-        position: absolute;
-        font-family: 'GoodTiming';
-        font-size: 70px;
-        font-weight: bold;
-        color: black;
-    }
-
-    /* Fade-out class */
-    .fade-out {
-        opacity: 0 !important;
-    }
-</style>
-</head>
-
-<body>
-
-<!-- MUSIC -->
-<audio id="intro-music" src="FlashUnicorn.mp3" autoplay loop></audio>
-
-<!-- solid black background -->
-<div class="black-mask"></div>
-
-<!-- your gif -->
-<img src="NewProjectFG.gif" class="bg">
-
-<!-- timer -->
-<div class="timer-box">
-    <div id="timer-back">10:00</div>
-    <div id="timer-front">10:00</div>
-</div>
-
-<script>
-let time = 30; // 30 seconds for testing
-let audio = document.getElementById("intro-music");
-
-/* MUSIC FADE-OUT FUNCTION */
-function fadeOutMusic() {
-    let fade = setInterval(() => {
-        if (audio.volume > 0.05) {
-            audio.volume -= 0.05;  // step fade
-        } else {
-            audio.volume = 0;
-            audio.pause();
-            clearInterval(fade);
-        }
-    }, 200); // approx 3 seconds fade-out
-}
-
-function updateTimer() {
-    let minutes = Math.floor(time / 60);
-    let seconds = time % 60;
-
-    let display =
-        String(minutes).padStart(2, '0') + ":" +
-        String(seconds).padStart(2, '0');
-
-    document.getElementById("timer-front").innerHTML = display;
-    document.getElementById("timer-back").innerHTML = display;
-
-    if (time === 0) {
-
-        // fade-out animation
-        document.querySelector(".timer-box").classList.add("fade-out");
-        document.querySelector(".bg").classList.add("fade-out");
-        document.querySelector(".black-mask").classList.add("fade-out");
-
-        fadeOutMusic(); // 🎵 fade-out music
-
-        setTimeout(() => {
-            document.querySelector(".timer-box").style.display = "none";
-            document.querySelector(".bg").style.display = "none";
-            document.querySelector(".black-mask").style.display = "none";
-        }, 3000);
-    }
-
-    if (time > 0) time--;
-}
-
-setInterval(updateTimer, 1000);
-</script>
-
-</body>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>Stream Intro</title>  <style>  
+    body {  
+        margin: 0;  
+        padding: 0;  
+        overflow: hidden;  
+        background: transparent;  
+        width: 100vw;  
+        height: 100vh;  
+    }  
+  
+    @font-face {  
+        font-family: 'GoodTiming';  
+        src: url('good timing bd.otf') format('opentype');  
+    }  
+  
+    /* ALWAYS 100% OPAQUE so screen never leaks */  
+    .black-mask {  
+        position: fixed;  
+        top: 0;  
+        left: 0;  
+        width: 100vw;  
+        height: 100vh;  
+        background: black;  
+        z-index: 0;  
+    }  
+  
+    .bg {  
+        position: fixed;  
+        width: 100vw;  
+        height: 100vh;  
+        object-fit: cover;  
+        z-index: 1;  
+        opacity: 1;  
+    }  
+  
+    .timer-box {  
+        position: absolute;  
+        top: 435px;  
+        left: 070px;  
+        width: 260px;  
+        height: 90px;  
+        display: flex;  
+        align-items: center;  
+        justify-content: center;  
+        z-index: 2;  
+        opacity: 1;  
+    }  
+  
+    #timer-back {  
+        position: absolute;  
+        font-family: 'GoodTiming';  
+        font-size: 70px;  
+        font-weight: bold;  
+        color: white;  
+        opacity: 0.9;  
+        transform: translate(2px, 2px);  
+    }  
+  
+    #timer-front {  
+        position: absolute;  
+        font-family: 'GoodTiming';  
+        font-size: 70px;  
+        font-weight: bold;  
+        color: black;  
+  
+    }  
+</style>  </head>  <body>  <!-- solid black background (never transparent) -->  <div class="black-mask"></div>  <!-- your gif -->  <img src="NewProjectFG.gif" class="bg">  <!-- timer -->  <div class="timer-box">  
+    <div id="timer-back">10:00</div>  
+    <div id="timer-front">10:00</div>  
+</div>  <script>  
+let time = 30; // 10 minutes (change if needed)  
+  
+function updateTimer() {  
+    let minutes = Math.floor(time / 60);  
+    let seconds = time % 60;  
+  
+    let display =  
+        String(minutes).padStart(2, '0') + ":" +  
+        String(seconds).padStart(2, '0');  
+  
+    document.getElementById("timer-front").innerHTML = display;  
+    document.getElementById("timer-back").innerHTML = display;  
+  
+    if (time === 0) {  
+  
+        document.querySelector(".timer-box").classList.add("fade-out");  
+        document.querySelector(".bg").classList.add("fade-out");  
+        document.querySelector(".black-mask").classList.add("fade-out");  
+  
+        setTimeout(() => {  
+            document.querySelector(".timer-box").style.display = "none";  
+            document.querySelector(".bg").style.display = "none";  
+            document.querySelector(".black-mask").style.display = "none";  
+        }, 3000);  
+    }  
+  
+    if (time > 0) time--;  
+}  
+  
+setInterval(updateTimer, 1000);  
+</script>  </body>  
 </html>
