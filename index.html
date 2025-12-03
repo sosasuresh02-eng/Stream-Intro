@@ -29,6 +29,8 @@
         height: 100vh;
         background: black;
         z-index: 0;
+        opacity: 1;
+        transition: opacity 3s ease; /* fade-out */
     }
 
     .bg {
@@ -38,12 +40,13 @@
         object-fit: cover;
         z-index: 1;
         opacity: 1;
+        transition: opacity 3s ease; /* fade-out */
     }
 
     .timer-box {
         position: absolute;
         top: 435px;
-        left: 070px;
+        left: 70px;
         width: 260px;
         height: 90px;
         display: flex;
@@ -51,6 +54,7 @@
         justify-content: center;
         z-index: 2;
         opacity: 1;
+        transition: opacity 3s ease; /* fade-out */
     }
 
     #timer-back {
@@ -69,14 +73,21 @@
         font-size: 70px;
         font-weight: bold;
         color: black;
+    }
 
+    /* Fade-out class */
+    .fade-out {
+        opacity: 0 !important;
     }
 </style>
 </head>
 
 <body>
 
-<!-- solid black background (never transparent) -->
+<!-- MUSIC -->
+<audio id="intro-music" src="FlashUnicorn.mp3" autoplay loop></audio>
+
+<!-- solid black background -->
 <div class="black-mask"></div>
 
 <!-- your gif -->
@@ -89,7 +100,21 @@
 </div>
 
 <script>
-let time = 30; // 10 minutes (change if needed)
+let time = 30; // 30 seconds for testing
+let audio = document.getElementById("intro-music");
+
+/* MUSIC FADE-OUT FUNCTION */
+function fadeOutMusic() {
+    let fade = setInterval(() => {
+        if (audio.volume > 0.05) {
+            audio.volume -= 0.05;  // step fade
+        } else {
+            audio.volume = 0;
+            audio.pause();
+            clearInterval(fade);
+        }
+    }, 200); // approx 3 seconds fade-out
+}
 
 function updateTimer() {
     let minutes = Math.floor(time / 60);
@@ -104,9 +129,12 @@ function updateTimer() {
 
     if (time === 0) {
 
+        // fade-out animation
         document.querySelector(".timer-box").classList.add("fade-out");
         document.querySelector(".bg").classList.add("fade-out");
         document.querySelector(".black-mask").classList.add("fade-out");
+
+        fadeOutMusic(); // 🎵 fade-out music
 
         setTimeout(() => {
             document.querySelector(".timer-box").style.display = "none";
