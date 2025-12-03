@@ -3,149 +3,84 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Stream Intro — Timer</title>
+<title>Stream Intro Timer</title>
+
 <style>
-  /* ============== CONFIGURE THESE ==============
-     Replace the placeholders below with your actual raw GitHub links:
-     - backgroundImage: link to your uploaded image (https://github.com/sosasuresh02-eng/Stream-Intro/blob/70ceb52c07c1a9d956eba35ce06e6aa0210f35f8/NewProjectFG.gif)
-     - fontUrl: link to your uploaded Good Timing BD .ttf/.otf file
-  ============================================== */
+/* Load custom font */
+@font-face {
+    font-family: "GoodTimingBD";
+    src: url("https://raw.githubusercontent.com/sosasuresh02-eng/Stream-Intro/main/good%20timing%20bd.otf") format("opentype");
+}
+
+/* FULL SCREEN */
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background: transparent;
+}
+
+/* GIF background */
+#bg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+/* Timer */
+#timerWrap{
+    position: fixed;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "GoodTimingBD", sans-serif;
+    font-size: 65px;
+    color: white;
+    text-shadow: 0 0 12px rgba(0,0,0,0.8);
+    transition: opacity 1.5s ease;
+}
+
+/* Fade-out after timer finishes */
+.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
 </style>
 </head>
+
 <body>
-<!-- HTML will be injected by the script below -->
+
+<!-- GIF Background -->
+<img id="bg" src="https://raw.githubusercontent.com/sosasuresh02-eng/Stream-Intro/main/NewProjectFG.gif">
+
+<!-- Timer Display -->
+<div id="timerWrap">10:00</div>
+
 <script>
-/* ================== CONFIG ================== */
-const CONFIG = {
-  backgroundImage: "https://github.com/sosasuresh02-eng/Stream-Intro/blob/70ceb52c07c1a9d956eba35ce06e6aa0210f35f8/NewProjectFG.gif",
-  fontUrl: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/GoodTimingBD.ttf",
-  durationSeconds: 600, // 10 minutes
-  timerBoxPosition: { left: "80px", top: "320px", width: "420px", height: "96px" } // adjust if needed
-};
-/* ============================================ */
+let remaining = 600; // 10 minutes
 
-/* Insert styles dynamically so user doesn't have to edit <style> manually */
-const style = document.createElement('style');
-style.textContent = `
-@font-face{
-  font-family: "GoodTimingBD";
-  src: url("${CONFIG.fontUrl}") format("truetype");
-  font-display: swap;
-}
-*{box-sizing:border-box}
-html,body{height:100%;width:100%;margin:0;padding:0;overflow:hidden}
-body{
-  background-image: url("${NewProjectFG.gif}");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  font-family: Arial, sans-serif;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+function updateTimer(){
+    const m = String(Math.floor(remaining / 60)).padStart(2,'0');
+    const s = String(remaining % 60).padStart(2,'0');
+    document.getElementById("timerWrap").textContent = `${m}:${s}`;
+
+    if(remaining <= 0){
+        document.getElementById("timerWrap").classList.add("fade-out");
+        return;
+    }
+
+    remaining--;
 }
 
-/* fade layer holds the timer and handles fade-out */
-#fadeLayer{
-  position:fixed; inset:0; display:flex; align-items:flex-start; justify-content:flex-start;
-  transition: opacity 1.2s ease, visibility 1.2s;
-  pointer-events: auto;
-}
-
-/* Timer box styling - fits into your white rectangle in the image */
-#timerBox{
-  position:absolute;
-  left: ${CONFIG.timerBoxPosition.left};
-  top: ${CONFIG.timerBoxPosition.top};
-  width: ${CONFIG.timerBoxPosition.width};
-  height: ${CONFIG.timerBoxPosition.height};
-  display:flex; align-items:center; justify-content:center;
-  background: rgba(255,255,255,0.0); /* keep transparent to show your image box */
-  font-family: "GoodTimingBD", "Arial Black", Arial, sans-serif;
-  font-size: 56px;
-  letter-spacing: 2px;
-  color: #000; /* black text to match your design */
-  text-shadow: 0 2px 0 rgba(255,255,255,0.15);
-}
-
-/* Optional small description under timer (hidden by default) */
-#subNote{ position:absolute; left: ${CONFIG.timerBoxPosition.left}; top: calc(${CONFIG.timerBoxPosition.top} + ${CONFIG.timerBoxPosition.height}); color:#000; opacity:0.9; font-size:14px; }
-
-/* When hidden, make everything transparent and non-interactive */
-.fade-out { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
-`;
-document.head.appendChild(style);
-
-/* Build DOM */
-const fadeLayer = document.createElement('div');
-fadeLayer.id = "fadeLayer";
-
-const timerBox = document.createElement('div');
-timerBox.id = "timerBox";
-timerBox.textContent = formatTime(CONFIG.durationSeconds);
-
-const subNote = document.createElement('div');
-subNote.id = "subNote";
-subNote.textContent = ""; // optional
-
-fadeLayer.appendChild(timerBox);
-fadeLayer.appendChild(subNote);
-document.body.appendChild(fadeLayer);
-
-/* Countdown logic */
-let remaining = CONFIG.durationSeconds;
-let intervalId = null;
-
-function formatTime(sec){
-  const mins = Math.floor(sec / 60);
-  const s = sec % 60;
-  return String(mins).padStart(2,'0') + ":" + String(s).padStart(2,'0');
-}
-
-function tick(){
-  remaining--;
-  if (remaining >= 0) {
-    timerBox.textContent = formatTime(remaining);
-  }
-  if (remaining < 0) {
-    clearInterval(intervalId);
-    // fade out
-    fadeLayer.classList.add('fade-out');
-
-    // After fade completes, remove layer so Prism shows underlying scene (or background)
-    setTimeout(()=> {
-      try { fadeLayer.remove(); } catch(e){}
-    }, 1400);
-  }
-}
-
-/* Start countdown slightly after load to ensure fonts/images render */
-window.addEventListener('load', ()=> {
-  // display initial value
-  timerBox.textContent = formatTime(remaining);
-  // Start interval (1 second)
-  intervalId = setInterval(tick, 1000);
-});
-
-/* Safety: also start if load event already fired */
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  timerBox.textContent = formatTime(remaining);
-  if (!intervalId) intervalId = setInterval(tick, 1000);
-}
-
-/* Allow external control via postMessage (optional)
-   e.g. { action: "setTime", seconds: 30 } or { action: "stopNow" }
-*/
-window.addEventListener('message', (ev)=>{
-  const data = typeof ev.data === 'string' ? (() => { try { return JSON.parse(ev.data); } catch(e){ return null } })() : ev.data;
-  if (!data) return;
-  if (data.action === 'setTime' && Number.isInteger(data.seconds)){
-    remaining = data.seconds;
-    timerBox.textContent = formatTime(remaining);
-  } else if (data.action === 'stopNow'){
-    remaining = -1;
-    tick();
-  }
-});
+setInterval(updateTimer, 1000);
+updateTimer();
 </script>
+
 </body>
 </html>
