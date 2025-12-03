@@ -28,13 +28,15 @@
         height: 100%;
         object-fit: cover;
         z-index: 1;
+        opacity: 1;
+        transition: opacity 2s ease; /* For fade-out */
     }
 
     /* Timer main container */
     .timer-box {
         position: absolute;
-        top: 335px;     /* PERFECT FIT for your white box */
-        left: 210px;    /* PERFECT CENTER */
+        top: 335px;
+        left: 210px;
         width: 260px;
         height: 90px;
 
@@ -43,6 +45,8 @@
         justify-content: center;
 
         z-index: 5;
+        opacity: 1;
+        transition: opacity 3s ease; /* For fade-out */
     }
 
     /* BACK (white stroke layer) */
@@ -53,7 +57,7 @@
         font-weight: bold;
         color: white;
         opacity: 0.9;
-        transform: translate(4px, 4px);  /* right + down stroke */
+        transform: translate(4px, 4px);
     }
 
     /* FRONT (main black timer) */
@@ -64,12 +68,12 @@
         font-weight: bold;
         color: black;
     }
-    .fade-out {
-    opacity: 0;
-    transition: opacity 2s ease;  /* 2 second fade */
 
+    /* Fade-out class */
+    .fade-out {
+        opacity: 0 !important;
     }
-    
+
 </style>
 </head>
 
@@ -85,7 +89,7 @@
 </div>
 
 <script>
-let time = 30; // 30 second 
+let time = 30; // 30 second timer
 
 function updateTimer() {
     let minutes = Math.floor(time / 60);
@@ -98,10 +102,18 @@ function updateTimer() {
     document.getElementById("timer-front").innerHTML = display;
     document.getElementById("timer-back").innerHTML = display;
 
-    // ⬇️ TIMER & GIF KO 0:00 PAR HIDE KARNE KA CODE ⬇️
+    // When timer ends → add fade-out animation
     if (time === 0) {
-        document.querySelector(".timer-box").style.display = "none";
-        document.querySelector(".bg").style.display = "none";
+
+        // Add fade animation
+        document.querySelector(".timer-box").classList.add("fade-out");
+        document.querySelector(".bg").classList.add("fade-out");
+
+        // After fade-out (2 sec later) hide elements
+        setTimeout(() => {
+            document.querySelector(".timer-box").style.display = "none";
+            document.querySelector(".bg").style.display = "none";
+        }, 3000);
     }
 
     if (time > 0) time--;
@@ -109,10 +121,6 @@ function updateTimer() {
 
 setInterval(updateTimer, 1000);
 </script>
-    
 
 </body>
 </html>
-
-
-
