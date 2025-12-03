@@ -1,85 +1,101 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Stream Intro Timer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stream Intro</title>
 
 <style>
-/* Load custom font */
-@font-face {
-    font-family: "GoodTimingBD";
-    src: url("https://raw.githubusercontent.com/sosasuresh02-eng/Stream-Intro/main/good%20timing%20bd.otf") format("opentype");
-}
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: transparent;
+        width: 100vw;
+        height: 100vh;
+    }
 
-/* FULL SCREEN */
-html,body{
-    margin:0;
-    padding:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background: transparent;
-}
+    /* Load your font */
+    @font-face {
+        font-family: 'GoodTiming';
+        src: url('good timing bd.otf') format('opentype');
+    }
 
-/* GIF background */
-#bg {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-}
+    /* Background GIF full screen */
+    .bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
 
-/* Timer */
-#timerWrap{
-    position: fixed;
-    top: 65%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: "GoodTimingBD", sans-serif;
-    font-size: 65px;
-    color: white;
-    text-shadow: 0 0 12px rgba(0,0,0,0.8);
-    transition: opacity 1.5s ease;
-}
+    /* Timer main container */
+    .timer-box {
+        position: absolute;
+        top: 335px;     /* PERFECT FIT for your white box */
+        left: 210px;    /* PERFECT CENTER */
+        width: 260px;
+        height: 90px;
 
-/* Fade-out after timer finishes */
-.fade-out {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        z-index: 5;
+    }
+
+    /* BACK (white stroke layer) */
+    #timer-back {
+        position: absolute;
+        font-family: 'GoodTiming';
+        font-size: 70px;
+        font-weight: bold;
+        color: white;
+        opacity: 0.9;
+        transform: translate(4px, 4px);  /* right + down stroke */
+    }
+
+    /* FRONT (main black timer) */
+    #timer-front {
+        position: absolute;
+        font-family: 'GoodTiming';
+        font-size: 70px;
+        font-weight: bold;
+        color: black;
+    }
 </style>
 </head>
 
 <body>
 
-<!-- GIF Background -->
-<img id="bg" src="https://raw.githubusercontent.com/sosasuresh02-eng/Stream-Intro/main/NewProjectFG.gif">
+<!-- Background GIF -->
+<img src="NewProjectFG.gif" class="bg">
 
-<!-- Timer Display -->
-<div id="timerWrap">10:00</div>
+<!-- Timer -->
+<div class="timer-box">
+    <div id="timer-back">10:00</div>
+    <div id="timer-front">10:00</div>
+</div>
 
 <script>
-let remaining = 600; // 10 minutes
+let time = 10 * 60; // 10 minutes
 
-function updateTimer(){
-    const m = String(Math.floor(remaining / 60)).padStart(2,'0');
-    const s = String(remaining % 60).padStart(2,'0');
-    document.getElementById("timerWrap").textContent = `${m}:${s}`;
+function updateTimer() {
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
 
-    if(remaining <= 0){
-        document.getElementById("timerWrap").classList.add("fade-out");
-        return;
-    }
+    let display = 
+        String(minutes).padStart(2, '0') + ":" + 
+        String(seconds).padStart(2, '0');
 
-    remaining--;
+    document.getElementById("timer-front").innerHTML = display;
+    document.getElementById("timer-back").innerHTML = display;
+
+    if (time > 0) time--;
 }
 
 setInterval(updateTimer, 1000);
-updateTimer();
 </script>
 
 </body>
