@@ -33,8 +33,8 @@
     /* Timer main container */
     .timer-box {
         position: absolute;
-        top: 325px;     /* PERFECT FIT for your white box */
-        left: 190px;    /* PERFECT CENTER */
+        top: 300px;     /* PERFECT FIT for your white box */
+        left: 160px;    /* PERFECT CENTER */
         width: 260px;
         height: 90px;
 
@@ -97,6 +97,35 @@ function updateTimer() {
 
 setInterval(updateTimer, 1000);
 </script>
+    <script>
+let time = 10 * 60; // 10 minutes
+
+function updateTimer() {
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+
+    let display = 
+        String(minutes).padStart(2, '0') + ":" + 
+        String(seconds).padStart(2, '0');
+
+    document.getElementById("timer-front").innerHTML = display;
+    document.getElementById("timer-back").innerHTML = display;
+
+    // TIMER & GIF DONO 0:00 PAR HIDE
+    if (time === 0) {
+        document.querySelector(".timer-box").style.display = "none"; // hide timer
+        document.querySelector(".bg").style.display = "none";        // hide GIF
+    }
+
+    if (time > 0) time--;
+}
+
+setInterval(updateTimer, 1000);
+    </script>
+    
 
 </body>
 </html>
+
+
+
