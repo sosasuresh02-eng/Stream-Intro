@@ -79,49 +79,30 @@
 </div>
 
 <script>
-let time = 10 * 60; // 10 minutes
+let time = 30; // 30 second 
 
 function updateTimer() {
     let minutes = Math.floor(time / 60);
     let seconds = time % 60;
 
-    let display = 
-        String(minutes).padStart(2, '0') + ":" + 
+    let display =
+        String(minutes).padStart(2, '0') + ":" +
         String(seconds).padStart(2, '0');
 
     document.getElementById("timer-front").innerHTML = display;
     document.getElementById("timer-back").innerHTML = display;
 
-    if (time > 0) time--;
-}
-
-setInterval(updateTimer, 1000);
-</script>
-    <script>
-let time = 10 * 60; // 10 minutes
-
-function updateTimer() {
-    let minutes = Math.floor(time / 60);
-    let seconds = time % 60;
-
-    let display = 
-        String(minutes).padStart(2, '0') + ":" + 
-        String(seconds).padStart(2, '0');
-
-    document.getElementById("timer-front").innerHTML = display;
-    document.getElementById("timer-back").innerHTML = display;
-
-    // TIMER & GIF DONO 0:00 PAR HIDE
+    // ⬇️ TIMER & GIF KO 0:00 PAR HIDE KARNE KA CODE ⬇️
     if (time === 0) {
-        document.querySelector(".timer-box").style.display = "none"; // hide timer
-        document.querySelector(".bg").style.display = "none";        // hide GIF
+        document.querySelector(".timer-box").style.display = "none";
+        document.querySelector(".bg").style.display = "none";
     }
 
     if (time > 0) time--;
 }
 
 setInterval(updateTimer, 1000);
-    </script>
+</script>
     
 
 </body>
