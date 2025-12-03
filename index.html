@@ -15,13 +15,11 @@
         height: 100vh;
     }
 
-    /* Load your font */
     @font-face {
         font-family: 'GoodTiming';
         src: url('good timing bd.otf') format('opentype');
     }
 
-    /* Background GIF full screen */
     .bg {
         position: absolute;
         width: 100%;
@@ -29,27 +27,23 @@
         object-fit: cover;
         z-index: 1;
         opacity: 1;
-        transition: opacity 2s ease; /* For fade-out */
+        transition: opacity 3s ease; /* 3s fade */
     }
 
-    /* Timer main container */
     .timer-box {
         position: absolute;
         top: 335px;
         left: 210px;
         width: 260px;
         height: 90px;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         z-index: 5;
         opacity: 1;
-        transition: opacity 3s ease; /* For fade-out */
+        transition: opacity 3s ease; /* 3s fade */
     }
 
-    /* BACK (white stroke layer) */
     #timer-back {
         position: absolute;
         font-family: 'GoodTiming';
@@ -60,7 +54,6 @@
         transform: translate(4px, 4px);
     }
 
-    /* FRONT (main black timer) */
     #timer-front {
         position: absolute;
         font-family: 'GoodTiming';
@@ -73,47 +66,43 @@
     .fade-out {
         opacity: 0 !important;
     }
-
 </style>
 </head>
 
 <body>
 
-<!-- Background GIF -->
 <img src="NewProjectFG.gif" class="bg">
 
-<!-- Timer -->
 <div class="timer-box">
     <div id="timer-back">10:00</div>
     <div id="timer-front">10:00</div>
 </div>
 
 <script>
-let time = 30; // 30 second timer
+let time = 30; // test: 30 seconds
 
 function updateTimer() {
     let minutes = Math.floor(time / 60);
     let seconds = time % 60;
 
-    let display =
-        String(minutes).padStart(2, '0') + ":" +
+    let display = 
+        String(minutes).padStart(2, '0') + ":" + 
         String(seconds).padStart(2, '0');
 
     document.getElementById("timer-front").innerHTML = display;
     document.getElementById("timer-back").innerHTML = display;
 
-    // When timer ends → add fade-out animation
     if (time === 0) {
 
-        // Add fade animation
+        // 1) Fade start
         document.querySelector(".timer-box").classList.add("fade-out");
         document.querySelector(".bg").classList.add("fade-out");
 
-        // After fade-out (2 sec later) hide elements
+        // 2) Hide after fade completes
         setTimeout(() => {
             document.querySelector(".timer-box").style.display = "none";
             document.querySelector(".bg").style.display = "none";
-        }, 3000);
+        }, 3000); // wait 3 seconds
     }
 
     if (time > 0) time--;
