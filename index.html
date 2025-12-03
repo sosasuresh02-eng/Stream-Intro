@@ -10,7 +10,7 @@
         margin: 0;
         padding: 0;
         overflow: hidden;
-        background: transparent;
+        background: black;    /* ⭐ GIF ke peeche pure black background */
         width: 100vw;
         height: 100vh;
     }
@@ -20,6 +20,7 @@
         src: url('good timing bd.otf') format('opentype');
     }
 
+    /* Background GIF */
     .bg {
         position: absolute;
         width: 100%;
@@ -27,42 +28,47 @@
         object-fit: cover;
         z-index: 1;
         opacity: 1;
-        transition: opacity 3s ease; /* 3s fade */
+        transition: opacity 3s ease;
+        background: black; /* GIF load hone se pehle bhi black */
     }
 
+    /* STARTING ke niche white box ki correct position */
     .timer-box {
         position: absolute;
-        top: 335px;
-        left: 210px;
-        width: 260px;
-        height: 90px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        top: 352px;
+        left: 292px;
+        width: 330px;
+        height: 110px;
         z-index: 5;
         opacity: 1;
-        transition: opacity 3s ease; /* 3s fade */
+        transition: opacity 2s ease;
     }
 
+    /* Timer text */
+    #timer-front,
     #timer-back {
         position: absolute;
         font-family: 'GoodTiming';
-        font-size: 70px;
+        font-size: 68px;
         font-weight: bold;
+    }
+
+    /* Black text */
+    #timer-front {
+        color: black;
+        top: 10px;     
+        left: 18px;
+    }
+
+    /* White shadow */
+    #timer-back {
         color: white;
         opacity: 0.9;
-        transform: translate(4px, 4px);
+        top: 14px;
+        left: 22px;
     }
 
-    #timer-front {
-        position: absolute;
-        font-family: 'GoodTiming';
-        font-size: 70px;
-        font-weight: bold;
-        color: black;
-    }
-
-    /* Fade-out class */
+    /* Fade-out */
     .fade-out {
         opacity: 0 !important;
     }
@@ -73,20 +79,21 @@
 
 <img src="NewProjectFG.gif" class="bg">
 
+<!-- STARTING ke niche box me timer -->
 <div class="timer-box">
     <div id="timer-back">10:00</div>
     <div id="timer-front">10:00</div>
 </div>
 
 <script>
-let time = 30; // test: 30 seconds
+let time = 30; // Timer seconds
 
 function updateTimer() {
     let minutes = Math.floor(time / 60);
     let seconds = time % 60;
 
-    let display = 
-        String(minutes).padStart(2, '0') + ":" + 
+    let display =
+        String(minutes).padStart(2, '0') + ":" +
         String(seconds).padStart(2, '0');
 
     document.getElementById("timer-front").innerHTML = display;
@@ -94,15 +101,13 @@ function updateTimer() {
 
     if (time === 0) {
 
-        // 1) Fade start
         document.querySelector(".timer-box").classList.add("fade-out");
         document.querySelector(".bg").classList.add("fade-out");
 
-        // 2) Hide after fade completes
         setTimeout(() => {
             document.querySelector(".timer-box").style.display = "none";
             document.querySelector(".bg").style.display = "none";
-        }, 3000); // wait 3 seconds
+        }, 2000);
     }
 
     if (time > 0) time--;
