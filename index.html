@@ -77,7 +77,7 @@
     #live-back, #live-front {
         position: absolute;
         top: 440px;
-        left: 140px;
+        left: 120px;
         font-family: 'GoodTiming';
         font-size: 70px;
         font-weight: bold;
@@ -142,7 +142,7 @@ function updateTimer() {
 
             document.getElementById("live-front").classList.add("fade-out");
             document.getElementById("live-back").classList.add("fade-out");
-        }, 5000);
+        }, 10000);
 
         // Hide LIVE completely after 2.5 seconds to avoid ghosting
         setTimeout(() => {
